@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "796f0a6be56bcbcf7",
+  "position": {
+    "x": 1061.6666666666667,
+    "y": 72,
+    "z": 7200,
+    "height": 100,
+    "width": 198.33333333333334,
+    "tabOrder": 7200
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Traffic-Stuck Trips"
+                }
+              },
+              "queryRef": "Trips.Traffic-Stuck Trips",
+              "nativeQueryRef": "Traffic-Stuck Trips"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Traffic-Stuck Trips'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

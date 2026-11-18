@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "83ab667193638b34e",
+  "position": {
+    "x": 645.0,
+    "y": 72,
+    "z": 1000,
+    "height": 100,
+    "width": 198.33333333333334,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Avg Revenue per Trip"
+                }
+              },
+              "queryRef": "Trips.Avg Revenue per Trip",
+              "nativeQueryRef": "Avg Revenue per Trip"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Avg Revenue per Trip'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

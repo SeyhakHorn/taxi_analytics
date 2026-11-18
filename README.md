@@ -53,7 +53,10 @@ taxi_analytics/
 │   ├── 02_data_cleaning.ipynb        # cleaning rules, new features, validation checks
 │   ├── 03_eda.ipynb                  # the five business questions, with charts
 │   └── 04_insights_and_dashboard_prep.ipynb  # insights table + Power BI dataset export
-└── dashboard/figures/                # the 19 charts produced by notebook 03
+├── dashboard/figures/                 # the 19 charts produced by notebook 03
+└── report/
+    ├── insights_recommendations.md   # 14 findings, priority and KPI per recommendation
+    └── powerbi/                      # Power BI project (.pbip), DAX measures, theme
 ```
 
 ## Data
@@ -97,7 +100,7 @@ Notebook 04 prepares a dashboard-ready dataset with:
 - revenue per mile and per minute
 - a data-quality flag
 
-The Power BI files (the report, DAX measures and theme) are kept locally and are not part of this repository.
+The dashboard itself lives in [report/powerbi/](report/powerbi/): a 6-page Power BI project (`taxi_dashboard_pbip/`), 39 DAX measures, and a custom theme. Open `taxi_dashboard_pbip/taxi_dashboard.pbip` in Power BI Desktop to view or edit it.
 
 ## Tools
 

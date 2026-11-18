@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "440ca18ad703dde02",
+  "position": {
+    "x": 332.5,
+    "y": 72,
+    "z": 3700,
+    "height": 100,
+    "width": 302.5,
+    "tabOrder": 3700
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Avg Tip (Card)"
+                }
+              },
+              "queryRef": "Trips.Avg Tip (Card)",
+              "nativeQueryRef": "Avg Tip (Card)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Avg Tip (Card)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

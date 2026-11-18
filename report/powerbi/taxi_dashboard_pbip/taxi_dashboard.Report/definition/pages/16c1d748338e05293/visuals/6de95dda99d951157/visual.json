@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "6de95dda99d951157",
+  "position": {
+    "x": 20,
+    "y": 10,
+    "z": 100,
+    "height": 52,
+    "width": 530,
+    "tabOrder": 100
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Title Overview"
+                }
+              },
+              "queryRef": "Trips.Title Overview",
+              "nativeQueryRef": "Title Overview"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Page headline'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

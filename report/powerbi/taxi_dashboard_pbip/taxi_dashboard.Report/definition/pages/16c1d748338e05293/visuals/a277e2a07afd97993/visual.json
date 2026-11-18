@@ -1,0 +1,118 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "a277e2a07afd97993",
+  "position": {
+    "x": 640,
+    "y": 182,
+    "z": 1400,
+    "height": 255,
+    "width": 620,
+    "tabOrder": 1400
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": []
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Fare Revenue"
+                }
+              },
+              "queryRef": "Trips.Fare Revenue",
+              "nativeQueryRef": "Fare Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Surcharges"
+                }
+              },
+              "queryRef": "Trips.Surcharges",
+              "nativeQueryRef": "Surcharges"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Tips"
+                }
+              },
+              "queryRef": "Trips.Tips",
+              "nativeQueryRef": "Tips"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Tolls"
+                }
+              },
+              "queryRef": "Trips.Tolls",
+              "nativeQueryRef": "Tolls"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Fares are 70% of what passengers pay; tips and tolls are not company income ($)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue composition'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

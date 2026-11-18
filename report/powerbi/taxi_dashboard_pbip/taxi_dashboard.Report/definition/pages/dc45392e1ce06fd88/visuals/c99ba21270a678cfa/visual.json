@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "c99ba21270a678cfa",
+  "position": {
+    "x": 520.0,
+    "y": 72,
+    "z": 5400,
+    "height": 100,
+    "width": 240.0,
+    "tabOrder": 5400
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Manhattan Trip Share %"
+                }
+              },
+              "queryRef": "Trips.Manhattan Trip Share %",
+              "nativeQueryRef": "Manhattan Trip Share %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Manhattan Trip Share %'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

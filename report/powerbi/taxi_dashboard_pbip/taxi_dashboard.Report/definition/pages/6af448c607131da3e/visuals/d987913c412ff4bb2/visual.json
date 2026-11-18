@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "d987913c412ff4bb2",
+  "position": {
+    "x": 853.3333333333334,
+    "y": 72,
+    "z": 8600,
+    "height": 100,
+    "width": 406.6666666666667,
+    "tabOrder": 8600
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Unknown Zone Trips"
+                }
+              },
+              "queryRef": "Trips.Unknown Zone Trips",
+              "nativeQueryRef": "Unknown Zone Trips"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Unknown Zone Trips'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

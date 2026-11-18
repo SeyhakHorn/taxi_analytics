@@ -1,0 +1,165 @@
+// =====================================================================
+// NYC Taxi Analytics — Power BI DAX (reference copy, one formula at a time)
+//
+// ⚠ DO NOT paste this whole file anywhere. Power BI accepts ONE formula per box,
+//   with no comment lines before it. Copy from the name (e.g. "Total Revenue =")
+//   to the end of that formula only.
+//
+// Easier: to add ALL measures at once, use measures_query_view.dax instead.
+// Table names: Trips (from data/powerbi/taxi_trips.csv), Date (below)
+// =====================================================================
+
+
+// ---------------------------------------------------------------------
+// 1. DATE TABLE  (Modeling → New table)
+// Relationship: Date[Date] 1 ──► * Trips[pickup_date]  (single direction)
+// Mark as date table: Table tools → Mark as date table → Date[Date]
+// ---------------------------------------------------------------------
+Date =
+ADDCOLUMNS (
+    CALENDAR ( DATE ( 2019, 3, 1 ), DATE ( 2019, 3, 31 ) ),
+    "Day Name",   FORMAT ( [Date], "dddd" ),
+    "Day Short",  FORMAT ( [Date], "ddd" ),
+    "Day Order",  WEEKDAY ( [Date], 2 ),                 // 1 = Monday
+    "Day Type",   IF ( WEEKDAY ( [Date], 2 ) >= 6, "Weekend", "Weekday" ),
+    "Week",       WEEKNUM ( [Date], 2 )
+)
+// Then: select Date[Day Name] → Column tools → Sort by column → Day Order
+// Do the same in Trips: pickup_day → day_order, time_period → time_period_order,
+//                       distance_band → distance_band_order
+
+
+// ---------------------------------------------------------------------
+// 2. CORE REVENUE
+// ---------------------------------------------------------------------
+Trips Count = COUNTROWS ( Trips )
+
+Total Revenue = SUM ( Trips[total] )
+
+Net Revenue = SUM ( Trips[net_revenue] )                 // fare + surcharges
+
+Fare Revenue = SUM ( Trips[fare] )
+
+Tips = SUM ( Trips[tip] )
+
+Tolls = SUM ( Trips[tolls] )
+
+Surcharges = SUM ( Trips[surcharges] )
+
+Avg Revenue per Trip = DIVIDE ( [Total Revenue], [Trips Count] )
+
+Median Revenue per Trip = MEDIAN ( Trips[total] )
+
+Net Revenue per Trip = DIVIDE ( [Net Revenue], [Trips Count] )
+
+
+// ---------------------------------------------------------------------
+// 3. SHARES  (respect slicers, ignore the visual's own grouping)
+// ---------------------------------------------------------------------
+Revenue Share % =
+DIVIDE ( [Total Revenue], CALCULATE ( [Total Revenue], ALLSELECTED ( Trips ) ) )
+
+Trip Share % =
+DIVIDE ( [Trips Count], CALCULATE ( [Trips Count], ALLSELECTED ( Trips ) ) )
+
+Airport Revenue Share % =
+DIVIDE (
+    CALCULATE ( [Total Revenue], Trips[is_airport_trip] = "Airport" ),
+    [Total Revenue]
+)
+
+Long Trip Revenue Share % =
+DIVIDE (
+    CALCULATE ( [Total Revenue], Trips[distance_band] = "10+ mi" ),
+    [Total Revenue]
+)
+
+
+// ---------------------------------------------------------------------
+// 4. DEMAND  (needs the Date table — fixes the 4-vs-5 weekdays issue)
+// ---------------------------------------------------------------------
+Days in Period = COUNTROWS ( 'Date' )
+
+Trips per Day = DIVIDE ( [Trips Count], [Days in Period] )
+
+Revenue per Day = DIVIDE ( [Total Revenue], [Days in Period] )
+
+Peak Hour =
+VAR HourTable =
+    ADDCOLUMNS ( VALUES ( Trips[pickup_hour] ), "@trips", [Trips Count] )
+RETURN
+    MAXX ( TOPN ( 1, HourTable, [@trips], DESC ), Trips[pickup_hour] )
+
+Peak Hour Label = FORMAT ( [Peak Hour], "0" ) & ":00"
+
+
+// ---------------------------------------------------------------------
+// 5. PAYMENT & TIPS
+// ---------------------------------------------------------------------
+Card Trips =
+CALCULATE ( [Trips Count], Trips[payment] = "credit card" )
+
+Card Share % = DIVIDE ( [Card Trips], [Trips Count] )
+
+Cash Share % =
+DIVIDE ( CALCULATE ( [Trips Count], Trips[payment] = "cash" ), [Trips Count] )
+
+// Card trips only — cash tips are not recorded
+Avg Tip (Card) =
+CALCULATE ( AVERAGE ( Trips[tip] ), Trips[payment] = "credit card" )
+
+Median Tip % (Card) =
+CALCULATE ( MEDIAN ( Trips[tip_pct] ), Trips[payment] = "credit card" )
+
+No-Tip Rate (Card) =
+DIVIDE (
+    CALCULATE ( [Trips Count], Trips[payment] = "credit card", Trips[tip] = 0 ),
+    [Card Trips]
+)
+
+
+// ---------------------------------------------------------------------
+// 6. EFFICIENCY  (ratio of sums = trip-weighted, not average of ratios)
+// ---------------------------------------------------------------------
+Avg Duration (min) = AVERAGE ( Trips[duration_min] )
+
+Median Duration (min) = MEDIAN ( Trips[duration_min] )
+
+Avg Distance (mi) = AVERAGE ( Trips[distance] )
+
+Avg Speed (mph) =
+DIVIDE ( SUM ( Trips[distance] ), SUM ( Trips[duration_min] ) / 60 )
+
+Revenue per Mile = DIVIDE ( [Total Revenue], SUM ( Trips[distance] ) )
+
+Revenue per Minute = DIVIDE ( [Total Revenue], SUM ( Trips[duration_min] ) )
+
+Revenue per Hour Driven = [Revenue per Minute] * 60
+
+Long Trips (> 36.5 min) =
+CALCULATE ( [Trips Count], Trips[duration_min] > 36.5 )
+
+Traffic-Stuck Trips =                                     // > 30 min but < 3 mi
+CALCULATE ( [Trips Count], Trips[duration_min] > 30, Trips[distance] < 3 )
+
+
+// ---------------------------------------------------------------------
+// 7. DATA QUALITY
+// ---------------------------------------------------------------------
+Suspicious Fares =
+CALCULATE ( [Trips Count], Trips[data_quality_flag] = "Suspicious fare" )
+
+Fare Outliers =
+CALCULATE ( [Trips Count], Trips[fare_outlier] = "Yes" )
+
+
+// ---------------------------------------------------------------------
+// 8. DYNAMIC TITLES  (Format → Title → fx → Field value)
+// ---------------------------------------------------------------------
+Title Overview =
+"Net revenue " & FORMAT ( [Net Revenue], "$#,0" )
+    & " from " & FORMAT ( [Trips Count], "#,0" ) & " trips"
+
+Title Demand =
+"Demand peaks at " & [Peak Hour Label]
+    & " · " & FORMAT ( [Trips per Day], "0" ) & " trips per day"

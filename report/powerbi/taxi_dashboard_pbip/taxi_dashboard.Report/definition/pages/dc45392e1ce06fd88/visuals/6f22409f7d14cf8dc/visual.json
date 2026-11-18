@@ -1,0 +1,127 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "6f22409f7d14cf8dc",
+  "position": {
+    "x": 20,
+    "y": 447,
+    "z": 5900,
+    "height": 255,
+    "width": 610,
+    "tabOrder": 5900
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Details": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "pickup_zone"
+                }
+              },
+              "queryRef": "Trips.pickup_zone",
+              "nativeQueryRef": "pickup_zone"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Trips Count"
+                }
+              },
+              "queryRef": "Trips.Trips Count",
+              "nativeQueryRef": "Trips Count"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Avg Revenue per Trip"
+                }
+              },
+              "queryRef": "Trips.Avg Revenue per Trip",
+              "nativeQueryRef": "Avg Revenue per Trip"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "is_airport_trip"
+                }
+              },
+              "queryRef": "Trips.is_airport_trip",
+              "nativeQueryRef": "is_airport_trip"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Busy zones are cheap trips; airports are the exception'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Zone volume versus value'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

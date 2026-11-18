@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "2ff45f840608e3003",
+  "position": {
+    "x": 436.6666666666667,
+    "y": 72,
+    "z": 8500,
+    "height": 100,
+    "width": 406.6666666666667,
+    "tabOrder": 8500
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Fare Outliers"
+                }
+              },
+              "queryRef": "Trips.Fare Outliers",
+              "nativeQueryRef": "Fare Outliers"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Fare Outliers'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

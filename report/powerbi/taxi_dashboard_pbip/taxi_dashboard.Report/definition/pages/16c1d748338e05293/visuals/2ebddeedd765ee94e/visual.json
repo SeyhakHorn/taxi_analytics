@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "2ebddeedd765ee94e",
+  "position": {
+    "x": 436.6666666666667,
+    "y": 72,
+    "z": 900,
+    "height": 100,
+    "width": 198.33333333333334,
+    "tabOrder": 900
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Trips Count"
+                }
+              },
+              "queryRef": "Trips.Trips Count",
+              "nativeQueryRef": "Trips Count"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Trips Count'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

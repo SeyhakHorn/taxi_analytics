@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "0c8753bcbcf36e518",
+  "position": {
+    "x": 645.0,
+    "y": 72,
+    "z": 7000,
+    "height": 100,
+    "width": 198.33333333333334,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Revenue per Mile"
+                }
+              },
+              "queryRef": "Trips.Revenue per Mile",
+              "nativeQueryRef": "Revenue per Mile"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Revenue per Mile'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "6487c1c8e7cd3feda",
+  "position": {
+    "x": 20,
+    "y": 182,
+    "z": 8700,
+    "height": 520,
+    "width": 900,
+    "tabOrder": 8700
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "trip_id"
+                }
+              },
+              "queryRef": "Trips.trip_id",
+              "nativeQueryRef": "trip_id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "pickup"
+                }
+              },
+              "queryRef": "Trips.pickup",
+              "nativeQueryRef": "pickup"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "route"
+                }
+              },
+              "queryRef": "Trips.route",
+              "nativeQueryRef": "route"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "distance"
+                }
+              },
+              "queryRef": "Trips.distance",
+              "nativeQueryRef": "distance"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "fare"
+                }
+              },
+              "queryRef": "Trips.fare",
+              "nativeQueryRef": "fare"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "total"
+                }
+              },
+              "queryRef": "Trips.total",
+              "nativeQueryRef": "total"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "data_quality_flag"
+                }
+              },
+              "queryRef": "Trips.data_quality_flag",
+              "nativeQueryRef": "data_quality_flag"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Trips"
+                  }
+                },
+                "Property": "data_quality_flag"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Trips by data-quality flag (suspicious fares listed first)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Trips with data-quality flags'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

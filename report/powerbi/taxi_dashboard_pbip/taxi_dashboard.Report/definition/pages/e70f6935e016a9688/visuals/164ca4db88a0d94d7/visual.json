@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "164ca4db88a0d94d7",
+  "position": {
+    "x": 436.6666666666667,
+    "y": 72,
+    "z": 6900,
+    "height": 100,
+    "width": 198.33333333333334,
+    "tabOrder": 6900
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Avg Speed (mph)"
+                }
+              },
+              "queryRef": "Trips.Avg Speed (mph)",
+              "nativeQueryRef": "Avg Speed (mph)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Avg Speed (mph)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

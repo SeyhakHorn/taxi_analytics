@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "b1cf4b906b41e7964",
+  "position": {
+    "x": 20.0,
+    "y": 72,
+    "z": 6700,
+    "height": 100,
+    "width": 198.33333333333334,
+    "tabOrder": 6700
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Avg Duration (min)"
+                }
+              },
+              "queryRef": "Trips.Avg Duration (min)",
+              "nativeQueryRef": "Avg Duration (min)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Avg Duration (min)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

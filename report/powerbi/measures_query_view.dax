@@ -1,0 +1,101 @@
+// =====================================================================
+// ALL MEASURES AT ONCE: paste this whole file into DAX query view
+//
+// Before you start: the Date table must already exist (see beginner_guide.md, Part 3.1).
+//
+// 1. Click the DAX query view icon on the left (4th icon, looks like a table with "DAX").
+// 2. Select everything in the editor, delete it, and paste this whole file.
+// 3. Click "Run" (or press F5). A small result table appears at the bottom:
+//    Trips 6370 · Total Revenue 117548.3 · Net Revenue 102921.21 · Trips per Day 205.48
+// 4. Above the word DEFINE, click the grey link "Update model: Add 39 new measures".
+//    The measures now appear under the Trips table in the Data pane.
+// =====================================================================
+
+DEFINE
+    // ---------- Core revenue ----------
+    MEASURE Trips[Trips Count] = COUNTROWS ( Trips )
+    MEASURE Trips[Total Revenue] = SUM ( Trips[total] )
+    MEASURE Trips[Net Revenue] = SUM ( Trips[net_revenue] )
+    MEASURE Trips[Fare Revenue] = SUM ( Trips[fare] )
+    MEASURE Trips[Tips] = SUM ( Trips[tip] )
+    MEASURE Trips[Tolls] = SUM ( Trips[tolls] )
+    MEASURE Trips[Surcharges] = SUM ( Trips[surcharges] )
+    MEASURE Trips[Avg Revenue per Trip] = DIVIDE ( [Total Revenue], [Trips Count] )
+    MEASURE Trips[Median Revenue per Trip] = MEDIAN ( Trips[total] )
+    MEASURE Trips[Net Revenue per Trip] = DIVIDE ( [Net Revenue], [Trips Count] )
+
+    // ---------- Shares ----------
+    MEASURE Trips[Revenue Share %] =
+        DIVIDE ( [Total Revenue], CALCULATE ( [Total Revenue], ALLSELECTED ( Trips ) ) )
+    MEASURE Trips[Trip Share %] =
+        DIVIDE ( [Trips Count], CALCULATE ( [Trips Count], ALLSELECTED ( Trips ) ) )
+    MEASURE Trips[Airport Revenue Share %] =
+        DIVIDE ( CALCULATE ( [Total Revenue], Trips[is_airport_trip] = "Airport" ), [Total Revenue] )
+    MEASURE Trips[Long Trip Revenue Share %] =
+        DIVIDE ( CALCULATE ( [Total Revenue], Trips[distance_band] = "10+ mi" ), [Total Revenue] )
+
+    // ---------- Demand (uses the Date table) ----------
+    MEASURE Trips[Days in Period] = COUNTROWS ( 'Date' )
+    MEASURE Trips[Trips per Day] = DIVIDE ( [Trips Count], [Days in Period] )
+    MEASURE Trips[Revenue per Day] = DIVIDE ( [Total Revenue], [Days in Period] )
+    MEASURE Trips[Peak Hour] =
+        VAR HourTable =
+            ADDCOLUMNS ( VALUES ( Trips[pickup_hour] ), "@trips", [Trips Count] )
+        RETURN
+            MAXX ( TOPN ( 1, HourTable, [@trips], DESC ), Trips[pickup_hour] )
+    MEASURE Trips[Peak Hour Label] = FORMAT ( [Peak Hour], "0" ) & ":00"
+
+    // ---------- Payment & tips (card only: cash tips are not recorded) ----------
+    MEASURE Trips[Card Trips] = CALCULATE ( [Trips Count], Trips[payment] = "credit card" )
+    MEASURE Trips[Card Share %] = DIVIDE ( [Card Trips], [Trips Count] )
+    MEASURE Trips[Cash Share %] =
+        DIVIDE ( CALCULATE ( [Trips Count], Trips[payment] = "cash" ), [Trips Count] )
+    MEASURE Trips[Avg Tip (Card)] =
+        CALCULATE ( AVERAGE ( Trips[tip] ), Trips[payment] = "credit card" )
+    MEASURE Trips[Median Tip % (Card)] =
+        CALCULATE ( MEDIAN ( Trips[tip_pct] ), Trips[payment] = "credit card" )
+    MEASURE Trips[No-Tip Rate (Card)] =
+        DIVIDE (
+            CALCULATE ( [Trips Count], Trips[payment] = "credit card", Trips[tip] = 0 ),
+            [Card Trips]
+        )
+
+    // ---------- Efficiency ----------
+    MEASURE Trips[Avg Duration (min)] = AVERAGE ( Trips[duration_min] )
+    MEASURE Trips[Median Duration (min)] = MEDIAN ( Trips[duration_min] )
+    MEASURE Trips[Avg Distance (mi)] = AVERAGE ( Trips[distance] )
+    MEASURE Trips[Avg Speed (mph)] =
+        DIVIDE ( SUM ( Trips[distance] ), SUM ( Trips[duration_min] ) / 60 )
+    MEASURE Trips[Revenue per Mile] = DIVIDE ( [Total Revenue], SUM ( Trips[distance] ) )
+    MEASURE Trips[Revenue per Minute] = DIVIDE ( [Total Revenue], SUM ( Trips[duration_min] ) )
+    MEASURE Trips[Revenue per Hour Driven] = [Revenue per Minute] * 60
+    MEASURE Trips[Long Trips (> 36.5 min)] = CALCULATE ( [Trips Count], Trips[duration_min] > 36.5 )
+    MEASURE Trips[Traffic-Stuck Trips] =
+        CALCULATE ( [Trips Count], Trips[duration_min] > 30, Trips[distance] < 3 )
+
+    // ---------- Data quality ----------
+    MEASURE Trips[Suspicious Fares] =
+        CALCULATE ( [Trips Count], Trips[data_quality_flag] = "Suspicious fare" )
+    MEASURE Trips[Fare Outliers] = CALCULATE ( [Trips Count], Trips[fare_outlier] = "Yes" )
+    MEASURE Trips[Unknown Pickup Zones] =
+        CALCULATE ( [Trips Count], Trips[pickup_zone] = "Unknown" )
+
+    // ---------- Dynamic titles ----------
+    MEASURE Trips[Title Overview] =
+        "Net revenue " & FORMAT ( [Net Revenue], "$#,0" )
+            & " from " & FORMAT ( [Trips Count], "#,0" ) & " trips"
+    MEASURE Trips[Title Demand] =
+        "Demand peaks at " & [Peak Hour Label]
+            & " · " & FORMAT ( [Trips per Day], "0" ) & " trips per day"
+
+// Quick check that everything works (this part only displays numbers, it changes nothing)
+EVALUATE
+ROW (
+    "Trips", [Trips Count],
+    "Total Revenue", [Total Revenue],
+    "Net Revenue", [Net Revenue],
+    "Avg per Trip", [Avg Revenue per Trip],
+    "Card Share", [Card Share %],
+    "Peak Hour", [Peak Hour Label],
+    "Trips per Day", [Trips per Day]
+)

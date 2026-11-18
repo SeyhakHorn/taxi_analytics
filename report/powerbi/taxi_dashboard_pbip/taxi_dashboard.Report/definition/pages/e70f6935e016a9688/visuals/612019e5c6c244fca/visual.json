@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "612019e5c6c244fca",
+  "position": {
+    "x": 853.3333333333334,
+    "y": 72,
+    "z": 7100,
+    "height": 100,
+    "width": 198.33333333333334,
+    "tabOrder": 7100
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Revenue per Minute"
+                }
+              },
+              "queryRef": "Trips.Revenue per Minute",
+              "nativeQueryRef": "Revenue per Minute"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Revenue per Minute'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

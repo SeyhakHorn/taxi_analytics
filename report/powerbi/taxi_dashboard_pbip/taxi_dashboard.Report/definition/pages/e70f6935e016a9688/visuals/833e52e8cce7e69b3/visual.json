@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "833e52e8cce7e69b3",
+  "position": {
+    "x": 228.33333333333334,
+    "y": 72,
+    "z": 6800,
+    "height": 100,
+    "width": 198.33333333333334,
+    "tabOrder": 6800
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Avg Distance (mi)"
+                }
+              },
+              "queryRef": "Trips.Avg Distance (mi)",
+              "nativeQueryRef": "Avg Distance (mi)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Avg Distance (mi)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

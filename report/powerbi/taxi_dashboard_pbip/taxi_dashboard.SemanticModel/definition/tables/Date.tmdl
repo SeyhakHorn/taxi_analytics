@@ -1,0 +1,59 @@
+table Date
+	dataCategory: Time
+	lineageTag: 84b0d384-8b42-f75b-50fd-53bd594a58be
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7720d401-90bb-6708-2a07-0d7293991198
+		isKey
+		summarizeBy: none
+		sourceColumn: [Date]
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: 4e306f4b-1e7a-6598-0e54-fb3b3cbd7483
+		summarizeBy: none
+		sortByColumn: 'Day Order'
+		sourceColumn: [Day Name]
+
+	column 'Day Short'
+		dataType: string
+		lineageTag: 1a92ddca-a391-a7cc-ff15-451ef9eb95b4
+		summarizeBy: none
+		sortByColumn: 'Day Order'
+		sourceColumn: [Day Short]
+
+	column 'Day Order'
+		dataType: int64
+		formatString: 0
+		lineageTag: fffa28da-aa6b-2920-9876-29bf2862d41b
+		summarizeBy: none
+		sourceColumn: [Day Order]
+
+	column 'Day Type'
+		dataType: string
+		lineageTag: 6ee45f22-96e1-5e20-d504-3d99a264bbbd
+		summarizeBy: none
+		sourceColumn: [Day Type]
+
+	column Week
+		dataType: int64
+		formatString: 0
+		lineageTag: 4678fd99-dec5-6223-57b4-5a880765f905
+		summarizeBy: none
+		sourceColumn: [Week]
+
+	partition Date = calculated
+		mode: import
+		source =
+				ADDCOLUMNS (
+				    CALENDAR ( DATE ( 2019, 3, 1 ), DATE ( 2019, 3, 31 ) ),
+				    "Day Name", FORMAT ( [Date], "dddd" ),
+				    "Day Short", FORMAT ( [Date], "ddd" ),
+				    "Day Order", WEEKDAY ( [Date], 2 ),
+				    "Day Type", IF ( WEEKDAY ( [Date], 2 ) >= 6, "Weekend", "Weekday" ),
+				    "Week", WEEKNUM ( [Date], 2 )
+				)
+
+	annotation PBI_ResultType = Table

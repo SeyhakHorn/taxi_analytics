@@ -1,0 +1,473 @@
+table Trips
+	lineageTag: 0cdb43e2-cc10-9787-44ce-e3bcfba8ea81
+
+	measure 'Trips Count' = COUNTROWS ( Trips )
+		formatString: #,0
+		displayFolder: Revenue
+		lineageTag: f8238ca9-e706-bbb4-05c1-64c64a311d5c
+
+	measure 'Total Revenue' = SUM ( Trips[total] )
+		formatString: $#,0
+		displayFolder: Revenue
+		lineageTag: a39258a4-fc77-bf41-daf2-edd5a09cc703
+
+	measure 'Net Revenue' = SUM ( Trips[net_revenue] )
+		formatString: $#,0
+		displayFolder: Revenue
+		lineageTag: 84f7a5b0-0498-b377-68b8-430e75071723
+
+	measure 'Fare Revenue' = SUM ( Trips[fare] )
+		formatString: $#,0
+		displayFolder: Revenue
+		lineageTag: 6803f290-ec5e-af48-6fa9-96f3e9c7255d
+
+	measure Tips = SUM ( Trips[tip] )
+		formatString: $#,0
+		displayFolder: Revenue
+		lineageTag: 33423589-3b9f-154b-c513-4bfc556d931a
+
+	measure Tolls = SUM ( Trips[tolls] )
+		formatString: $#,0
+		displayFolder: Revenue
+		lineageTag: 1b10fea7-4c7c-4ae6-8dc8-ddd2536ff665
+
+	measure Surcharges = SUM ( Trips[surcharges] )
+		formatString: $#,0
+		displayFolder: Revenue
+		lineageTag: a3f98b2c-c2b8-74b1-5c89-89587b6f5e2d
+
+	measure 'Avg Revenue per Trip' = DIVIDE ( [Total Revenue], [Trips Count] )
+		formatString: $#,0.00
+		displayFolder: Revenue
+		lineageTag: 02d0966b-41d0-92a4-8c12-e01665df861f
+
+	measure 'Median Revenue per Trip' = MEDIAN ( Trips[total] )
+		formatString: $#,0.00
+		displayFolder: Revenue
+		lineageTag: 4bc068e4-bd68-c5d0-b918-411cca6d5494
+
+	measure 'Net Revenue per Trip' = DIVIDE ( [Net Revenue], [Trips Count] )
+		formatString: $#,0.00
+		displayFolder: Revenue
+		lineageTag: 51ac31c9-7960-f81f-7f0a-04592e46d78d
+
+	measure 'Revenue Share %' = DIVIDE ( [Total Revenue], CALCULATE ( [Total Revenue], ALLSELECTED ( Trips ) ) )
+		formatString: 0.0%
+		displayFolder: Shares
+		lineageTag: 3f3900a8-4b00-9119-d0a7-f138dbf8c465
+
+	measure 'Trip Share %' = DIVIDE ( [Trips Count], CALCULATE ( [Trips Count], ALLSELECTED ( Trips ) ) )
+		formatString: 0.0%
+		displayFolder: Shares
+		lineageTag: 1ce0478f-98e3-ab7a-e5dc-ce1e0ab624aa
+
+	measure 'Airport Revenue' = CALCULATE ( [Total Revenue], Trips[is_airport_trip] = "Airport" )
+		formatString: $#,0
+		displayFolder: Shares
+		lineageTag: 0dfa04f4-23f8-5001-5294-dc5ea3037eac
+
+	measure 'Airport Revenue Share %' = DIVIDE ( [Airport Revenue], [Total Revenue] )
+		formatString: 0.0%
+		displayFolder: Shares
+		lineageTag: ac1fb554-34ee-a983-922e-2031cba55ed1
+
+	measure 'Long Trip Revenue Share %' = DIVIDE ( CALCULATE ( [Total Revenue], Trips[distance_band] = "10+ mi" ), [Total Revenue] )
+		formatString: 0.0%
+		displayFolder: Shares
+		lineageTag: cf7e921d-0449-b6f1-9cf6-381c44368379
+
+	measure 'Manhattan Trip Share %' = DIVIDE ( CALCULATE ( [Trips Count], Trips[pickup_borough] = "Manhattan" ), [Trips Count] )
+		formatString: 0.0%
+		displayFolder: Shares
+		lineageTag: cf863ffc-6715-82fa-2664-b546a3bf720c
+
+	measure 'Avg Revenue per Airport Trip' = CALCULATE ( [Avg Revenue per Trip], Trips[is_airport_trip] = "Airport" )
+		formatString: $#,0.00
+		displayFolder: Shares
+		lineageTag: abaf04dc-2e69-2aa9-643d-79a2b5d31ff7
+
+	measure 'Avg Revenue per Non-Airport Trip' = CALCULATE ( [Avg Revenue per Trip], Trips[is_airport_trip] = "Non-airport" )
+		formatString: $#,0.00
+		displayFolder: Shares
+		lineageTag: 7e7bfba7-1ab1-e914-4471-7bcbf4a7ffb1
+
+	measure 'Days in Period' = COUNTROWS ( 'Date' )
+		formatString: 0
+		displayFolder: Demand
+		lineageTag: f3b78e02-da5e-1aad-69da-0d1b7426c40c
+
+	measure 'Trips per Day' = DIVIDE ( [Trips Count], [Days in Period] )
+		formatString: #,0.0
+		displayFolder: Demand
+		lineageTag: e97b90c5-c1da-06e1-67b9-ec14b4bc0899
+
+	measure 'Revenue per Day' = DIVIDE ( [Total Revenue], [Days in Period] )
+		formatString: $#,0
+		displayFolder: Demand
+		lineageTag: c1c3617f-0afb-b632-ceae-87b73c8237af
+
+	measure 'Peak Hour' = VAR HourTable = ADDCOLUMNS ( VALUES ( Trips[pickup_hour] ), "@trips", [Trips Count] ) RETURN MAXX ( TOPN ( 1, HourTable, [@trips], DESC ), Trips[pickup_hour] )
+		formatString: 0
+		displayFolder: Demand
+		lineageTag: 90494810-618b-40ae-47fe-f4579ca21eb1
+
+	measure 'Peak Hour Label' = FORMAT ( [Peak Hour], "0" ) & ":00"
+		displayFolder: Demand
+		lineageTag: 01227827-ea93-b2f7-94bf-53905344cb32
+
+	measure 'Card Trips' = CALCULATE ( [Trips Count], Trips[payment] = "credit card" )
+		formatString: #,0
+		displayFolder: Payments & Tips
+		lineageTag: 675384e9-0ce2-f4d1-ca28-d4e260956562
+
+	measure 'Card Share %' = DIVIDE ( [Card Trips], [Trips Count] )
+		formatString: 0.0%
+		displayFolder: Payments & Tips
+		lineageTag: f0843959-ff34-8fac-8864-545a6b501e2a
+
+	measure 'Cash Share %' = DIVIDE ( CALCULATE ( [Trips Count], Trips[payment] = "cash" ), [Trips Count] )
+		formatString: 0.0%
+		displayFolder: Payments & Tips
+		lineageTag: 25983049-b4bc-7521-f884-f78736bd9fcb
+
+	measure 'Avg Tip (Card)' = CALCULATE ( AVERAGE ( Trips[tip] ), Trips[payment] = "credit card" )
+		formatString: $#,0.00
+		displayFolder: Payments & Tips
+		lineageTag: 59d2b107-3f85-6dec-5212-26d6a76767f2
+
+	measure 'Median Tip % (Card)' = CALCULATE ( MEDIAN ( Trips[tip_pct] ), Trips[payment] = "credit card" )
+		formatString: 0.0
+		displayFolder: Payments & Tips
+		lineageTag: e316d711-a26c-810f-4248-7804b589fb06
+
+	measure 'No-Tip Rate (Card)' = DIVIDE ( CALCULATE ( [Trips Count], Trips[payment] = "credit card", Trips[tip] = 0 ), [Card Trips] )
+		formatString: 0.0%
+		displayFolder: Payments & Tips
+		lineageTag: ff19f68b-f9f8-8af5-a2e4-81e04bc1d7b0
+
+	measure 'Avg Duration (min)' = AVERAGE ( Trips[duration_min] )
+		formatString: 0.0
+		displayFolder: Efficiency
+		lineageTag: 717ec641-b57b-75dd-f92c-76eabd442097
+
+	measure 'Median Duration (min)' = MEDIAN ( Trips[duration_min] )
+		formatString: 0.0
+		displayFolder: Efficiency
+		lineageTag: e2880043-ee63-7240-2f13-d49e65d8813a
+
+	measure 'Avg Distance (mi)' = AVERAGE ( Trips[distance] )
+		formatString: 0.00
+		displayFolder: Efficiency
+		lineageTag: 9d0db8de-ff6d-bf09-51f2-7141a381ae49
+
+	measure 'Avg Speed (mph)' = DIVIDE ( SUM ( Trips[distance] ), SUM ( Trips[duration_min] ) / 60 )
+		formatString: 0.0
+		displayFolder: Efficiency
+		lineageTag: 27a5eb6e-019c-dcdb-c8bd-db90ffe776f1
+
+	measure 'Revenue per Mile' = DIVIDE ( [Total Revenue], SUM ( Trips[distance] ) )
+		formatString: $#,0.00
+		displayFolder: Efficiency
+		lineageTag: 61b6d773-4ea4-96be-4828-ee4120043ef4
+
+	measure 'Revenue per Minute' = DIVIDE ( [Total Revenue], SUM ( Trips[duration_min] ) )
+		formatString: $#,0.00
+		displayFolder: Efficiency
+		lineageTag: b0565df0-756f-0341-b4bc-7b41fffad1bb
+
+	measure 'Revenue per Hour Driven' = [Revenue per Minute] * 60
+		formatString: $#,0.00
+		displayFolder: Efficiency
+		lineageTag: 128a7d34-f62f-2007-206d-1c1a4fbfe7a5
+
+	measure 'Long Trips (> 36.5 min)' = CALCULATE ( [Trips Count], Trips[duration_min] > 36.5 )
+		formatString: #,0
+		displayFolder: Efficiency
+		lineageTag: e7dadb7d-118f-9a0d-bc6e-637db0f8f9b3
+
+	measure 'Traffic-Stuck Trips' = CALCULATE ( [Trips Count], Trips[duration_min] > 30, Trips[distance] < 3 )
+		formatString: #,0
+		displayFolder: Efficiency
+		lineageTag: 24fa5384-f137-a02f-9244-7ab894ceffd2
+
+	measure 'Suspicious Fares' = CALCULATE ( [Trips Count], Trips[data_quality_flag] = "Suspicious fare" )
+		formatString: #,0
+		displayFolder: Data Quality
+		lineageTag: 06bd203f-3eb7-4192-5127-caa1b7934b46
+
+	measure 'Fare Outliers' = CALCULATE ( [Trips Count], Trips[fare_outlier] = "Yes" )
+		formatString: #,0
+		displayFolder: Data Quality
+		lineageTag: f686be49-1941-8e53-c935-353b81fe71fb
+
+	measure 'Unknown Zone Trips' = CALCULATE ( [Trips Count], Trips[pickup_zone] = "Unknown" )
+		formatString: #,0
+		displayFolder: Data Quality
+		lineageTag: bceaf916-a121-a541-238e-e79eeac1268f
+
+	measure 'Title Overview' = "Net revenue " & FORMAT ( [Net Revenue], "$#,0" ) & " from " & FORMAT ( [Trips Count], "#,0" ) & " trips"
+		displayFolder: Titles
+		lineageTag: 1554e485-3c02-85ce-762b-2e4f45c67227
+
+	measure 'Title Demand' = "Demand peaks at " & [Peak Hour Label] & " · " & FORMAT ( [Trips per Day], "0" ) & " trips per day"
+		displayFolder: Titles
+		lineageTag: ba877453-0036-29cd-3118-80b440249a27
+
+	column trip_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 5729b2a7-0168-46fb-5ae0-b034d1d281e9
+		summarizeBy: none
+		sourceColumn: trip_id
+
+	column pickup
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4e039868-83e5-cd63-b20f-d027fe23e601
+		summarizeBy: none
+		sourceColumn: pickup
+
+	column dropoff
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0333c81f-9003-0b7d-142b-5a1bcd521c64
+		summarizeBy: none
+		sourceColumn: dropoff
+
+	column pickup_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b57b2977-53f2-a8c5-1846-d87a8d7105b4
+		summarizeBy: none
+		sourceColumn: pickup_date
+
+	column pickup_hour
+		dataType: int64
+		formatString: 0
+		lineageTag: ec889361-6391-7543-9c1d-ef9f8782767e
+		summarizeBy: none
+		sourceColumn: pickup_hour
+
+	column pickup_day
+		dataType: string
+		lineageTag: 52242a68-4611-05ce-c4c3-49776d109327
+		summarizeBy: none
+		sortByColumn: day_order
+		sourceColumn: pickup_day
+
+	column day_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 24e1b39d-41bc-aea1-203b-ec59b6d27431
+		summarizeBy: none
+		sourceColumn: day_order
+
+	column day_type
+		dataType: string
+		lineageTag: 6873136f-14d8-bcd8-b86f-0607342cfaac
+		summarizeBy: none
+		sourceColumn: day_type
+
+	column time_period
+		dataType: string
+		lineageTag: f61aedfe-ea4e-4dc7-4674-c3fc05a096ee
+		summarizeBy: none
+		sortByColumn: time_period_order
+		sourceColumn: time_period
+
+	column time_period_order
+		dataType: int64
+		formatString: 0
+		lineageTag: f673663f-dded-8d6b-582c-9ee3908ccff9
+		summarizeBy: none
+		sourceColumn: time_period_order
+
+	column color
+		dataType: string
+		lineageTag: fd489a57-a692-ef4c-bb30-82dd84c23482
+		summarizeBy: none
+		sourceColumn: color
+
+	column payment
+		dataType: string
+		lineageTag: eae9060f-60ce-ce1a-2290-d2a8c8308ed0
+		summarizeBy: none
+		sourceColumn: payment
+
+	column passengers
+		dataType: int64
+		formatString: 0
+		lineageTag: 446f8ec3-5f74-00f2-0adc-b255d9d55131
+		summarizeBy: none
+		sourceColumn: passengers
+
+	column distance
+		dataType: double
+		formatString: 0.00
+		lineageTag: 3e839834-5426-3fca-5cd6-22a7a66bfb1f
+		summarizeBy: none
+		sourceColumn: distance
+
+	column distance_band
+		dataType: string
+		lineageTag: e49f4931-f2c9-f539-61b3-a8c5063357fc
+		summarizeBy: none
+		sortByColumn: distance_band_order
+		sourceColumn: distance_band
+
+	column distance_band_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 84065b50-6ec3-1548-4674-086ba2b14c8f
+		summarizeBy: none
+		sourceColumn: distance_band_order
+
+	column duration_min
+		dataType: double
+		formatString: 0.0
+		lineageTag: ecde3143-9669-07bb-9fed-342858933aed
+		summarizeBy: none
+		sourceColumn: duration_min
+
+	column speed_mph
+		dataType: double
+		formatString: 0.0
+		lineageTag: a0f36d43-ef2b-d562-3e48-6ff72751984d
+		summarizeBy: none
+		sourceColumn: speed_mph
+
+	column fare
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: c7a84c78-25c0-0bd2-976b-8156fa38c9f0
+		summarizeBy: none
+		sourceColumn: fare
+
+	column surcharges
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 34db694c-d973-26a8-c8e2-f6c420caf8c3
+		summarizeBy: none
+		sourceColumn: surcharges
+
+	column tip
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: f71b40e3-4deb-8e01-df2d-a6157678cd39
+		summarizeBy: none
+		sourceColumn: tip
+
+	column tolls
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a7cbb97b-2c71-3ad1-1088-82e882879181
+		summarizeBy: none
+		sourceColumn: tolls
+
+	column total
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 7290664b-cf3f-b7ff-37ad-d9453f72450c
+		summarizeBy: none
+		sourceColumn: total
+
+	column net_revenue
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 0f8ce006-8724-8035-5365-393d139b331a
+		summarizeBy: none
+		sourceColumn: net_revenue
+
+	column tip_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: 94679d72-f3d1-dfbd-c58f-ec0f532be6a4
+		summarizeBy: none
+		sourceColumn: tip_pct
+
+	column revenue_per_mile
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 4870f9d2-e3fa-9f62-5dd0-43487e3a672a
+		summarizeBy: none
+		sourceColumn: revenue_per_mile
+
+	column revenue_per_min
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 91e9621a-32b0-34d9-525f-ec8810c08f6b
+		summarizeBy: none
+		sourceColumn: revenue_per_min
+
+	column pickup_zone
+		dataType: string
+		lineageTag: ef3111aa-5f30-c191-8943-48be96f720e5
+		summarizeBy: none
+		sourceColumn: pickup_zone
+
+	column dropoff_zone
+		dataType: string
+		lineageTag: 3c1270c9-187d-8058-6d4e-35ad5c378b74
+		summarizeBy: none
+		sourceColumn: dropoff_zone
+
+	column pickup_borough
+		dataType: string
+		lineageTag: 9e7d2e6b-1e87-2f40-fea1-d2fccaa6e6be
+		summarizeBy: none
+		sourceColumn: pickup_borough
+
+	column dropoff_borough
+		dataType: string
+		lineageTag: ae2e4685-85bb-5af8-ac23-5c768a1644df
+		summarizeBy: none
+		sourceColumn: dropoff_borough
+
+	column route
+		dataType: string
+		lineageTag: b45ac155-bb22-0e16-60ff-cea4a915a22d
+		summarizeBy: none
+		sourceColumn: route
+
+	column is_airport_trip
+		dataType: string
+		lineageTag: 5fc9c371-10b1-3aa2-8494-0e5f1481a45a
+		summarizeBy: none
+		sourceColumn: is_airport_trip
+
+	column fare_outlier
+		dataType: string
+		lineageTag: 4d51e251-aeff-0ace-8e76-f4fbbbab0cfc
+		summarizeBy: none
+		sourceColumn: fare_outlier
+
+	column is_flat_fare
+		dataType: string
+		lineageTag: bd6f8bb4-b552-14ed-aa48-10af75e70cc2
+		summarizeBy: none
+		sourceColumn: is_flat_fare
+
+	column data_quality_flag
+		dataType: string
+		lineageTag: d342db5b-a8c4-d467-c39c-2c5e88fe5cb1
+		summarizeBy: none
+		sourceColumn: data_quality_flag
+
+	/// Tip % grouped in 5-point bins; 50 means 50% or more.
+	column 'Tip Bin (5%)' = IF ( ISBLANK ( Trips[tip_pct] ), BLANK (), INT ( MIN ( FLOOR ( Trips[tip_pct], 5 ), 50 ) ) )
+		dataType: int64
+		formatString: 0
+		lineageTag: f4795c93-68eb-c6cc-7d8f-c15d388b6b9d
+		summarizeBy: none
+
+	partition Trips = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataPath), [Delimiter=",", Columns=36, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"trip_id", Int64.Type}, {"pickup", type datetime}, {"dropoff", type datetime}, {"pickup_date", type date}, {"pickup_hour", Int64.Type}, {"pickup_day", type text}, {"day_order", Int64.Type}, {"day_type", type text}, {"time_period", type text}, {"time_period_order", Int64.Type}, {"color", type text}, {"payment", type text}, {"passengers", Int64.Type}, {"distance", type number}, {"distance_band", type text}, {"distance_band_order", Int64.Type}, {"duration_min", type number}, {"speed_mph", type number}, {"fare", type number}, {"surcharges", type number}, {"tip", type number}, {"tolls", type number}, {"total", type number}, {"net_revenue", type number}, {"tip_pct", type number}, {"revenue_per_mile", type number}, {"revenue_per_min", type number}, {"pickup_zone", type text}, {"dropoff_zone", type text}, {"pickup_borough", type text}, {"dropoff_borough", type text}, {"route", type text}, {"is_airport_trip", type text}, {"fare_outlier", type text}, {"is_flat_fare", type text}, {"data_quality_flag", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

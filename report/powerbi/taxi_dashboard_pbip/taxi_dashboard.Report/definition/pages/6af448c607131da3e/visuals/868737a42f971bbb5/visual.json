@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "868737a42f971bbb5",
+  "position": {
+    "x": 940,
+    "y": 182,
+    "z": 8800,
+    "height": 520,
+    "width": 320,
+    "tabOrder": 8800
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Cleaning summary (notebook 02): 62 impossible trips removed (zero distance, zero or negative duration, over 60 mph). 94 trips have 0 passengers. 44 trips lack a payment type; 26-45 lack zones. 4 trips have suspicious fares, e.g. $52 for 0.11 mi.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#52514e"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

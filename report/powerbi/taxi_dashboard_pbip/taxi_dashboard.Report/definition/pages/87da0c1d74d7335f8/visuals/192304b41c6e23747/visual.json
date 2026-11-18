@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "192304b41c6e23747",
+  "position": {
+    "x": 957.5,
+    "y": 72,
+    "z": 3900,
+    "height": 100,
+    "width": 302.5,
+    "tabOrder": 3900
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "No-Tip Rate (Card)"
+                }
+              },
+              "queryRef": "Trips.No-Tip Rate (Card)",
+              "nativeQueryRef": "No-Tip Rate (Card)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: No-Tip Rate (Card)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,3 @@
+expression DataPath = "C:\taxi_analytics\data\powerbi\taxi_trips.csv" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 4ace5426-e051-f5de-ae50-9b9d4333f01c
+	queryGroup: Parameters

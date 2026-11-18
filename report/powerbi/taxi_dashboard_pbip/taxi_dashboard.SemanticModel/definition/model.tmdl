@@ -1,0 +1,10 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+
+ref table Trips
+ref table Date
+ref expression DataPath
+
+annotation PBI_QueryOrder = ["DataPath","Trips"]

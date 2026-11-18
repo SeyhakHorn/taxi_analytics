@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "54278fc2a46491d51",
+  "position": {
+    "x": 853.3333333333334,
+    "y": 72,
+    "z": 2500,
+    "height": 100,
+    "width": 406.6666666666667,
+    "tabOrder": 2500
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Revenue per Day"
+                }
+              },
+              "queryRef": "Trips.Revenue per Day",
+              "nativeQueryRef": "Revenue per Day"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Revenue per Day'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

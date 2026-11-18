@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "01aaee1dce0803b68",
+  "position": {
+    "x": 20.0,
+    "y": 72,
+    "z": 3600,
+    "height": 100,
+    "width": 302.5,
+    "tabOrder": 3600
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Card Share %"
+                }
+              },
+              "queryRef": "Trips.Card Share %",
+              "nativeQueryRef": "Card Share %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Card Share %'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

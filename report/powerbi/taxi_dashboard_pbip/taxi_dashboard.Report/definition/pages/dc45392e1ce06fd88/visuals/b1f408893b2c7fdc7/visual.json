@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "b1f408893b2c7fdc7",
+  "position": {
+    "x": 270.0,
+    "y": 72,
+    "z": 5300,
+    "height": 100,
+    "width": 240.0,
+    "tabOrder": 5300
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Trips"
+                    }
+                  },
+                  "Property": "Airport Revenue Share %"
+                }
+              },
+              "queryRef": "Trips.Airport Revenue Share %",
+              "nativeQueryRef": "Airport Revenue Share %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'KPI card: Airport Revenue Share %'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
